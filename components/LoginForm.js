@@ -19,8 +19,12 @@ export default class LoginForm extends Component {
 
     handleSubmit = async event => {
         event.preventDefault();
-        await loginUser(this.state.email, this.state.password);
-        Router.push('/profile');
+        try {
+            await loginUser(this.state.email, this.state.password);
+            Router.push('/profile');
+        } catch (err) {
+            alert(err.message);
+        }
     }
 
     render() {
@@ -28,7 +32,7 @@ export default class LoginForm extends Component {
             <form onSubmit={this.handleSubmit}>
                 <div><input type="text"
                     name="email"
-                    placeholder="emial"
+                    placeholder="email"
                     onChange={this.handleChange}
                     value={this.state.email}
                 /></div>

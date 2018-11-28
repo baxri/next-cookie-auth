@@ -34,7 +34,7 @@ app.prepare().then(() => {
     server.use(express.json());
     server.use(cookieParser(COOKIE_SECRET));
 
-    server.post('api/profile', async (req, res) => {
+    server.get('/api/profile', async (req, res) => {
         const { signedCookies = {} } = req;
         const { token } = signedCookies;
 
