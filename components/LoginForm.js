@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { loginUser } from "../lib/auth";
 
 export default class LoginForm extends Component {
 
@@ -15,14 +16,14 @@ export default class LoginForm extends Component {
         this.setState({ [event.target.name]: event.target.value });
     }
 
-    handleSubmit = event => {
+    handleSubmit = async event => {
         event.preventDefault();
-        console.log(this.state);
+        await loginUser(this.state.email, this.state.password);
     }
 
     render() {
         return (
-            <form>
+            <form onSubmit={this.handleSubmit}>
                 <div><input type="text"
                     name="email"
                     placeholder="emial"
@@ -33,7 +34,7 @@ export default class LoginForm extends Component {
                     placeholder="password"
                     onChange={this.handleChange}
                 /></div>
-                <button type="submit" onChange={this.handleSubmit}>Submit</button>
+                <button type="submit" onSubmit={this.handleSubmit}>Submit</button>
             </form>
 
         )
