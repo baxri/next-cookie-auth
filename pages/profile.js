@@ -7,7 +7,7 @@ import { authInitialProps } from "../lib/auth";
 export default class Profile extends Component {
 
     static async getInitialProps(ctx) {
-        const auth = await authInitialProps(ctx);
+        const auth = await authInitialProps(ctx, true);
 
         return { auth };
     }
