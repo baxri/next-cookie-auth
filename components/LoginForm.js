@@ -10,6 +10,8 @@ export default class LoginForm extends Component {
         this.state = {
             email: 'Sincere@april.biz',
             password: 'hildegard.org',
+            error: '',
+            isLoading: false,
         }
     }
 
@@ -17,17 +19,27 @@ export default class LoginForm extends Component {
         this.setState({ [event.target.name]: event.target.value });
     }
 
+    showError = err => {
+        this.setState({ error: err, isLoading: false });
+    }
+
     handleSubmit = async event => {
+
+        this.setState({ error: '', isLoading: true });
+
         event.preventDefault();
         try {
             await loginUser(this.state.email, this.state.password);
             Router.push('/profile');
         } catch (err) {
-            alert(err.message);
+            this.showError(err.message);
         }
     }
 
     render() {
+
+        const { error, isLoading } = this.state;
+
         return (
             <form onSubmit={this.handleSubmit}>
                 <div><input type="text"
@@ -42,7 +54,11 @@ export default class LoginForm extends Component {
                     onChange={this.handleChange}
                     value={this.state.password}
                 /></div>
-                <button type="submit" onSubmit={this.handleSubmit}>Submit</button>
+                <button disabled={isLoading} type="submit" onSubmit={this.handleSubmit}>
+                    {isLoading ? 'Sending' : 'Submit'}
+                </button>
+
+                {error.length > 0 && <div>{error}</div>}
             </form>
 
         )
